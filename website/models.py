@@ -2,11 +2,13 @@ from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 
-user_course=db.Table('user_course',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('course_id', db.Integer, db.ForeignKey('course.id'))
-    )
 
+class UserCourse(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
+    absences = db.Column(db.Integer)
+    
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(10000))
@@ -20,11 +22,17 @@ class User(db.Model, UserMixin):
     firstName = db.Column(db.String(150))
     notes = db.relationship('Note')
     role = db.Column(db.String(50))
-#    courses = db.relationship('Course', secondary=user_course, backref='members')
+    courses = db.relationship('Course', secondary='user_course')
+    
     
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     coursecode = db.Column(db.String(100))
     coursename = db.Column(db.String(100))
-    
-    
+    db.relationship('User', secondary='user_course')
+ 
+#this is an association viariable
+#user_course=db.Table('user_course',
+#    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+#    db.Column('course_id', db.Integer, db.ForeignKey('course.id'))
+#    )   
