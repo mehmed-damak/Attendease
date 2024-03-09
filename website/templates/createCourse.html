@@ -1,2 +1,29 @@
-
-
+{% extends 'base.html' %}
+{% block title %}Create Course{% endblock %}
+{% block content %} 
+<form method = "POST">
+    <h3 align="center">Create User</h3>
+    <div class="form-group">
+        <label for="coursename">Course name</label>
+        <input
+          type="coursename"
+          class="form-control"
+          id="coursename"
+          name="coursename"
+          placeholder="Course name"
+        />
+    </div>
+    <div class="form-group">
+      <label for="coursecode">Course code</label>
+      <input
+        type="coursecode"
+        class="form-control"
+        id="coursecode"
+        name="coursecode"
+        placeholder="Course Code"
+      />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+{% endblock %}

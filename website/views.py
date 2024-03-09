@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
-from . models import Note
+from . models import *
 from . import db
 import json
 views = Blueprint('views', __name__)
@@ -32,4 +32,22 @@ def delete_note():
     
     return jsonify({})
 
-        
+@views.route('/create-course', methods=['GET', 'POST'])
+def createCourse():
+    if request.method=='POST':
+        coursecode = request.form.get('coursecode')
+        coursename = request.form.get('coursename')
+        course = Course.query.filter_by(coursecode=coursecode).first()
+        if course:
+            flash('Course exists', category='error')
+        elif len(coursecode)!=5:
+            flash('wrong course code format, must be 5 alphanumeric characters', category='error')
+        elif len(coursename)<6:
+            flash('course name too short', category='error')
+        else:
+            new_course=Course(coursecode=coursecode, coursename=coursename)
+            db.session.add(new_course)
+            db.session.commit()
+            flash('Course created', category='success')
+    
+    return render_template("createCourse.html", user=current_user)

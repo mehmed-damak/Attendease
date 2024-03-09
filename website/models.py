@@ -24,6 +24,7 @@ class User(db.Model, UserMixin):
     
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(10000))
+    coursecode = db.Column(db.String(100))
+    coursename = db.Column(db.String(100))
     
     
