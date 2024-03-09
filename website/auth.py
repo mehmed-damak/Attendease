@@ -21,7 +21,7 @@ def login():
             else:
                 flash('incorrect password', category = 'error')
         elif email=="admin@admin.com" and password=="admin123":
-            new_user = User(email=email, role="admin", password = password)
+            new_user = User(email=email, role="admin", password = generate_password_hash(password, method='scrypt'))
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
