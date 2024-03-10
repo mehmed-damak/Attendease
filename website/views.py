@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from . models import *
 from . models import User, Course
@@ -12,14 +12,17 @@ def home():
     courses = Course.query.all()
     if request.method == 'POST':
         
-        coursecode=request.form.get('courseid')
+        coursecode=request.form.get('coursecode')
         email=request.form.get('email')
         addremove=request.form.get('addremove')
-        
+    
         
         member = User.query.filter_by(email=email).first()
         course = Course.query.filter_by(coursecode=coursecode).first()
-        
+        if not course and not member:
+            flash('user not in course', category='error')
+            return redirect(url_for('views.home'))
+        relation = UserCourse.query.filter_by(user_id=member.id, course_id=course.id).first()
         
         if not member:
             flash("user does not exist", category='error')
@@ -28,9 +31,15 @@ def home():
         elif addremove != 'remove' and addremove != 'add':
             flash("'remove' or 'add'", category='error')
         elif addremove == 'add':
+            if relation:
+                flash("member of class", category='error')
+                return redirect(url_for('views.home'))
             member.courses.append(course)
             db.session.commit()
         elif addremove == 'remove':
+            if not relation:
+                flash("Not member of class", category='error')
+                return redirect(url_for('views.home'))
             member.courses.remove(course)
             db.session.commit()
             
