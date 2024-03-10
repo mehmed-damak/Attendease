@@ -22,14 +22,14 @@ class User(db.Model, UserMixin):
     firstName = db.Column(db.String(150))
     notes = db.relationship('Note')
     role = db.Column(db.String(50))
-    courses = db.relationship('Course', secondary='user_course')
+    courses = db.relationship('Course', secondary='user_course', back_populates='users')
     
     
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     coursecode = db.Column(db.String(100))
     coursename = db.Column(db.String(100))
-    db.relationship('User', secondary='user_course')
+    users = db.relationship('User', secondary='user_course', back_populates='courses')
  
 #this is an association viariable
 #user_course=db.Table('user_course',

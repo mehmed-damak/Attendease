@@ -50,7 +50,7 @@ def signup():
             flash('email exists', category='error')
         elif len(email)<4:
             flash('email small', category='error')
-        elif role != "teacher" or role!="student":
+        elif role != 'teacher' and role !='student':
             flash('must be "teacher" or "student"', category='error')
         elif len(firstName)<2:
             flash('name small', category='error')
@@ -64,6 +64,5 @@ def signup():
             db.session.commit()
             login_user(new_user, remember=True)
             flash('Person created', category='success')
-            return redirect(url_for('views.home'))
             
     return render_template("signup.html", user=current_user)
