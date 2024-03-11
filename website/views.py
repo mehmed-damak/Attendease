@@ -19,8 +19,8 @@ def home():
         
         member = User.query.filter_by(email=email).first()
         course = Course.query.filter_by(coursecode=coursecode).first()
-        if not course and not member:
-            flash('user not in course', category='error')
+        if not course or not member:
+            flash('coursecode or user does not exist', category='error')
             return redirect(url_for('views.home'))
         relation = UserCourse.query.filter_by(user_id=member.id, course_id=course.id).first()
         
@@ -46,7 +46,14 @@ def home():
             
     return render_template("home.html", user=current_user, courses=courses)
 
- 
+@views.route('/student-home', methods=['GET', 'POST'])
+@login_required
+def studentHome():
+    courses=current_user.courses
+    return render_template("studenthome.html", user=current_user, courses=courses)
+    
+    
+    
 @views.route('/create-course', methods=['GET', 'POST'])
 def createCourse():
     if request.method=='POST':

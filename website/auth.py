@@ -17,7 +17,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash('logged in successfully :))', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.home'))#remembet to fix to so student goes to his respective page
             else:
                 flash('incorrect password', category = 'error')
         elif email=="admin@admin.com" and password=="admin123":
