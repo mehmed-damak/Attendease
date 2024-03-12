@@ -14,10 +14,18 @@ def login():
         
         user = User.query.filter_by(email=email).first()
         if user:
-            if check_password_hash(user.password, password):
+            if check_password_hash(user.password, password) and user.role=="admin":
                 flash('logged in successfully :))', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))#remembet to fix to so student goes to his respective page
+                return redirect(url_for('views.home'))
+            elif check_password_hash(user.password, password) and user.role=="student":
+                flash('logged in successfully :))', category='success')
+                login_user(user, remember=True)
+                return redirect(url_for('views.home'))
+            elif check_password_hash(user.password, password) and user.role=="teacher":
+                flash('logged in successfully :))', category='success')
+                login_user(user, remember=True)
+                return redirect(url_for('views.studentHome'))
             else:
                 flash('incorrect password', category = 'error')
         elif email=="admin@admin.com" and password=="admin123":
