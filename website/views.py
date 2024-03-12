@@ -55,8 +55,21 @@ def studentHome():
         relation = UserCourse.query.filter_by(course_id=course.id, user_id=current_user.id) 
         relations.append(relation)
     return render_template("studenthome.html", user=current_user, courses=courses, relations=relations)
-    
-    
+
+
+@views.route('teacher-home', methods = ['GET', 'POST'])
+@login_required
+def teacherHome():
+    courses=current_user.courses
+    students=[]
+    relations = []
+    for course in courses:
+        student = User.query.filter_by(courses=course.id, role="student")
+        students.append(student)
+    for student in students:
+        relation = UserCourse.query.filter_by(course_id=course.id) 
+        relations.append(relation)       
+    return render_template("teacherhome.html", user=current_user, courses=courses, students=students)
     
 @views.route('/create-course', methods=['GET', 'POST'])
 def createCourse():
