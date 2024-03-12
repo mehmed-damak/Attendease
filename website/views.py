@@ -50,7 +50,11 @@ def home():
 @login_required
 def studentHome():
     courses=current_user.courses
-    return render_template("studenthome.html", user=current_user, courses=courses)
+    relations = []
+    for course in courses:
+        relation = UserCourse.query.filter_by(course_id=course.id, user_id=current_user.id) 
+        relations.append(relation)
+    return render_template("studenthome.html", user=current_user, courses=courses, relations=relations)
     
     
     

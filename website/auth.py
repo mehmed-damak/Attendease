@@ -21,11 +21,11 @@ def login():
             elif check_password_hash(user.password, password) and user.role=="student":
                 flash('logged in successfully :))', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.studentHome'))
             elif check_password_hash(user.password, password) and user.role=="teacher":
                 flash('logged in successfully :))', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.studentHome'))
+                return redirect(url_for('views.home'))
             else:
                 flash('incorrect password', category = 'error')
         elif email=="admin@admin.com" and password=="admin123":

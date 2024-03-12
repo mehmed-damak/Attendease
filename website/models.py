@@ -9,21 +9,16 @@ class UserCourse(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     absences = db.Column(db.Integer)
     
-class Note(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(10000))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
     
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     firstName = db.Column(db.String(150))
-    notes = db.relationship('Note')
+    #notes = db.relationship('Note')
     role = db.Column(db.String(50))
     courses = db.relationship('Course', secondary='user_course', back_populates='users')
-    
     
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,3 +31,9 @@ class Course(db.Model):
 #    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
 #    db.Column('course_id', db.Integer, db.ForeignKey('course.id'))
 #    )   
+
+#class Note(db.Model):
+#    id = db.Column(db.Integer, primary_key=True)
+#    data = db.Column(db.String(10000))
+#    date = db.Column(db.DateTime(timezone=True), default=func.now())
+#    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
