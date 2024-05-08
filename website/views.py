@@ -6,6 +6,17 @@ from . import db
 import json
 views = Blueprint('views', __name__)
 
+
+@views.route('/attendance/<int:rfid>', methods=['POST'])
+def update_attendance(rfid):
+    User=User.query.filter_by(rfid=rfid)
+    if not User:
+        return jsonify({'message': 'did not work'})
+    User.attendance = User.attendance + 1
+    db.session.commit
+    return jsonify({'message': 'it worked'})
+    
+
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
@@ -57,7 +68,7 @@ def studentHome():
     return render_template("studenthome.html", user=current_user, courses=courses, relations=relations)
 
 
-@views.route('teacher-home', methods = ['GET', 'POST'])
+@views.route('/teacher-home', methods = ['GET', 'POST'])
 @login_required
 def teacherHome():
     courses=current_user.courses
