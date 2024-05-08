@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     firstName = db.Column(db.String(150))
     #notes = db.relationship('Note')
     role = db.Column(db.String(50))
+    rfid = db.Column(db.Integer, unique=True)
     courses = db.relationship('Course', secondary='user_course', back_populates='users')
     
 class Course(db.Model):
