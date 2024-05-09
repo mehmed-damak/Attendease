@@ -7,8 +7,7 @@ class UserCourse(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
-    absences = db.Column(db.Integer)
-    
+    attendance = db.Column(db.Integer)
 
     
 class User(db.Model, UserMixin):
@@ -20,7 +19,7 @@ class User(db.Model, UserMixin):
     role = db.Column(db.String(50))
     rfid = db.Column(db.String(30), unique=True)
     courses = db.relationship('Course', secondary='user_course', back_populates='users')
-    attendance = db.Column(db.Integer)
+    
     
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)

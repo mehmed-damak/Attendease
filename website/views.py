@@ -1,21 +1,10 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from . models import *
-from . models import User, Course
+from . models import User, Course, UserCourse
 from . import db
 import json
 views = Blueprint('views', __name__)
-
-
-@views.route('/attendance/<int:rfid>', methods=['POST'])
-def update_attendance(rfid):
-    User=User.query.filter_by(rfid=rfid)
-    if not User:
-        return jsonify({'message': 'did not work'})
-    User.attendance = User.attendance + 1
-    db.session.commit
-    return jsonify({'message': 'it worked'})
-    
 
 @views.route('/', methods=['GET', 'POST'])
 @login_required
