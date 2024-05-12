@@ -69,7 +69,7 @@ def teacherHome():
     for student in students:
         relation = UserCourse.query.filter_by(course_id=course.id) 
         relations.append(relation)       
-    return render_template("teacherhome.html", user=current_user, courses=courses, students=students)
+    return render_template("teacherhome.html", user=current_user, courses=courses, students=students, relations=relations)
     
 @views.route('/create-course', methods=['GET', 'POST'])
 def createCourse():
