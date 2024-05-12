@@ -36,7 +36,7 @@
           <a class="nav-item nav-link" id="createCourse" href="/create-course">Create Course</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           {% elif user.is_authenticated and user.role=="teacher" %}
-          <a class="nav-item nav-link" id="home" href="/teacher-home">Home</a>
+          <a class="nav-item nav-link" id="home" href="/">Home</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           {% elif user.is_authenticated and user.role=="student"%}
           <a class="nav-item nav-link" id="studentHome" href="/student-home">Home</a>
