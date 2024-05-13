@@ -1,1 +1,26 @@
-
+{% extends 'base.html' %}   
+{% block content %}
+<br />
+<h1>Courses</h1>
+<br />
+<ul class="list-group list-group-flush" id="viewcourse">
+    {% for course in courses %}
+    <li class="list-group-item">
+      <h3 align="left"><b>{{ course.coursename }}</b></h3>
+        {% set students = course.users %}
+        {% for student in students %}
+            {%if student.role=='student'%}
+                <h3 align="left" ><i>{{ student.firstName }}</i></h3>
+                {%for relation in relations%}
+                    {% if relation.user_id==student.id and relation.course_id==course.id %}
+                        <h3 style="color:#00c220" align="left" ><i>{{ relation.attendance }}</i></h3>
+                        <br />
+                    {% endif %}
+                {%endfor%}
+            {%endif%}
+        {% endfor %}
+    </li>
+    <br />
+    {% endfor %}
+</ul>
+{% endblock %}
