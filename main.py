@@ -8,10 +8,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 app = create_app()
 
 scheduler=BackgroundScheduler
-scheduler.init_app(app)
 def backgroundtask():
     reader = SimpleMFRC522()
     id, text = reader.read()
+    print(id)
+    print(text)
     courses=Course.query.all()
     students=User.query.all()
     activecourse=Course.query.filter_by(status=True)
