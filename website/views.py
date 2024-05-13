@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
+from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for, session
 from flask_login import login_user, login_required, logout_user, current_user
 from . models import *
 from . models import User, Course, UserCourse
@@ -61,6 +61,7 @@ def studentHome():
 @views.route('/teacher-home', methods = ['GET', 'POST'])
 @login_required
 def teacherHome():
+    state = session.get('state')
     courses=current_user.courses
     students=[]
     relations=UserCourse.query.all()
@@ -85,6 +86,17 @@ def createCourse():
             flash('Course created', category='success')
     
     return render_template("createCourse.html", user=current_user)
+
+@views.route('/toggle/<int:currentcourse>', methods=['GET', 'POST'])
+def toggle(currentcourse):
+    courses=Course.query.all()
+    for course in courses:
+        if currentcourse == course.id:
+            course.status = not course.status
+            db.session.commit()
+        else:
+            course.status=False
+    return redirect(url_for('views.teacherHome'))#this is your next task
 
 '''
 @views.route('/delete-note', methods=['POST'])

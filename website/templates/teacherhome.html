@@ -7,6 +7,13 @@
     {% for course in courses %}
     <li class="list-group-item">
       <h3 align="left"><b>{{ course.coursename }}</b></h3>
+        <a href="{{ url_for('views.toggle', currentcourse=course.id)}}">
+        {% if course.status == true %}
+            <button>Stop</button>
+        {% elif course.status == false %}
+            <button>Start</button>
+        {% endif %}
+        </a>
         {% set students = course.users %}
         {% for student in students %}
             {%if student.role=='student'%}

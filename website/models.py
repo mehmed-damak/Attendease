@@ -16,7 +16,6 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     firstName = db.Column(db.String(150))
     role = db.Column(db.String(50))
-    rfid = db.Column(db.String(30), unique=True)
     courses = db.relationship('Course', secondary='user_course', back_populates='users')
     
     
@@ -25,6 +24,7 @@ class Course(db.Model):
     coursecode = db.Column(db.String(100))
     coursename = db.Column(db.String(100))
     users = db.relationship('User', secondary='user_course', back_populates='courses')
+    status = db.Column(db.Boolean)
  
 #this is an association viariable
 #user_course=db.Table('user_course',

@@ -51,15 +51,12 @@ def signup():
         firstName = request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-        rfid=request.form.get('RFID')
         role = request.form.get('usertype')
         
-        user1 = User.query.filter_by(rfid=rfid).first()
+
         user = User.query.filter_by(email=email).first()
         if user:
             flash('email exists', category='error')
-        if user1:
-            flash('rfid already exits', category='error')
         elif len(email)<4:
             flash('email small', category='error')
         elif role != 'teacher' and role !='student':
