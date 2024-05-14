@@ -4,6 +4,9 @@ from . models import *
 from . models import User, Course, UserCourse
 from . import db
 import json
+import RPi.GPIO as GPIO
+from mfrc522 import SimpleMFRC522
+
 views = Blueprint('views', __name__)
 
 
@@ -80,7 +83,7 @@ def createCourse():
         elif len(coursename)<6:
             flash('course name too short', category='error')
         else:
-            new_course=Course(coursecode=coursecode, coursename=coursename)
+            new_course=Course(coursecode=coursecode, coursename=coursename, status=False)
             db.session.add(new_course)
             db.session.commit()
             flash('Course created', category='success')
@@ -97,6 +100,13 @@ def toggle(currentcourse):
         else:
             course.status=False
             db.session.commit()
+    current_course=Course.query.filter_by(id=currentcourse)
+    while current_course.status == True:
+        reader=SimpleMFRC22()
+        id, text = reader.read
+        activeuser=User.query.filter_by(firstName=text)
+        currentrelation=User.query.filter_by(course_id=current_course.id, user_id=activeuser.id)
+        currentrelation.attendance = currentrelalation.attendance + 1
     return redirect(url_for('views.teacherHome'))#this is your next task
 
 '''

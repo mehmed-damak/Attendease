@@ -1,9 +1,4 @@
-from website import create_app, models
-from website import db
-from website.models import *
-import RPi.GPIO as GPIO
-from mfrc522 import SimpleMFRC522
-from apscheduler.schedulers.background import BackgroundScheduler
+from website import create_app
 
 app = create_app()
 
