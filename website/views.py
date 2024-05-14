@@ -96,6 +96,7 @@ def toggle(currentcourse):
             db.session.commit()
         else:
             course.status=False
+            db.session.commit()
     return redirect(url_for('views.teacherHome'))#this is your next task
 
 '''
